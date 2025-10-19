@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社員個人情報データベース</title>
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Yu Mincho', 'Hiragino Mincho ProN', 'MS PMincho', serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        /* ヘッダー */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1em 2em;
+            background-color: #666;
+            color: #fff;
+        }
+        .title-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 3em;
+            letter-spacing: 0.1em;
+            line-height: 1;
+            border: none;
+        }
+        .subtitle {
+            margin: 0;
+            padding: 0;
+            line-height: 1;
+            font-size: 1em;
+            text-align: center;
+            color: #fff;
+        }
+        /* 検索 */
+        .search {
+            display: flex;
+            align-items: center;
+        }
+        .search input {
+            padding: 4px;
+            border: 2px solid #333;
+            border-radius: 4px;
+            width: 150px;
+            background-color: #fff;
+            color: #333;
+        }
+        .search input::placeholder {
+            color: #333aa;
+        }
+        .search button {
+            padding: 4px 6px;
+            margin-left: 4px;
+            border-radius: 4px;
+            border: none;
+            background-color: #333;
+            color: #fff;
+            cursor: pointer;
+        }
+        .search button:hover {
+            background-color: #222;
+        }
+        /* ナビゲーション */
+        nav {
+            text-align: center;
+            padding: 1em 0;
+            background-color: #f0f0f0;
+        }
+        nav a {
+            color: #333;
+            margin: 0 1em;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover {
+            color: #666;
+        }
+        nav a.active {
+            color: #666;
+            border-bottom: 2px solid #666;
+        }
+        /* メインコンテナ */
+        .container {
+            max-width: 800px;
+            margin: 2em auto;
+            background-color: #000000;
+            border: 2px solid #ffffff;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        .employee-number {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 14px;
+            font-weight: bold;
+            background-color: #333333;
+            color: #ffffff;
+            padding: 8px 15px;
+            border: 1px solid #ffffff;
+            border-radius: 3px;
+        }
+        .content {
+            padding: 60px 40px 40px 40px;
+        }
+        .document-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #ffffff;
+        }
+        .document-header h2 {
+            margin: 0;
+            font-size: 24px;
+            color: #ffffff;
+            letter-spacing: 3px;
+            font-weight: normal;
+        }
+        /* セクション */
+        .section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ffffff;
+        }
+        .section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        .field-group {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: baseline;
+        }
+        .name-field {
+            display: flex;
+            align-items: flex-start;
+            gap: 30px;
+        }
+        .name-info {
+            flex: 1;
+        }
+        .field-label {
+            font-weight: bold;
+            min-width: 120px;
+            color: #ffffff;
+            margin-right: 20px;
+            font-size: 16px;
+        }
+        .field-value {
+            flex: 1;
+            font-size: 16px;
+            color: #ffffff;
+        }
+        .name-section .field-value {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .furigana {
+            font-size: 12px;
+            color: #cccccc;
+            margin-bottom: 3px;
+            display: block;
+        }
+        .main-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        .photo-container {
+            width: 120px;
+            height: 160px;
+            border: 2px solid #ffffff;
+            background-color: #222222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #cccccc;
+            font-size: 12px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #ffffff;
+            display: inline-block;
+        }
+        .career-item {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+            color: #ffffff;
+        }
+        .career-item::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        .reference-note {
+            text-align: center;
+            color: #cccccc;
+            font-size: 12px;
+            margin-top: 20px;
+            padding-bottom: 10px;
+        }
+        .confidential {
+            text-align: center;
+            color: #ffffff;
+            font-size: 12px;
+            padding: 20px;
+            background-color: #333333;
+            border-top: 1px solid #ffffff;
+        }
+        /* フッター */
+        footer {
+            display: flex;
+            background-color: #666;
+            color: #ffffff;
+            text-align: center;
+            padding: 1em;
+            margin-top: 3em;
+            text-align: center;
+        }
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .content {
+                padding: 40px 20px 20px 20px;
+            }
+            header h1 {
+                font-size: 2em;
+            }
+            .name-field {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .photo-container {
+                align-self: center;
+            }
+            .field-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .field-label {
+                margin-bottom: 5px;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+   <header>
+  <div class="title-wrapper">
+    <h1>狭間書房</h1>
+    <p class="subtitle">Hazama Publishing</p>
+  </div>
+  <div class="search">
+      <form action="https://hazamashobo.github.io/result/" method="get">
+        <input type="text" id="searchInput" name="q" placeholder="キーワード入力">
+        <button type="submit">検索</button>
+      </form>
+    </div>
+</header>
+
+  <nav>
+    <a href="https://hazamashobo.github.io/main/index.html">ホーム</a>
+    <a href="https://hazamashobo.github.io/company/index.html">狭間書房について</a>
+    <a href="https://hazamashobo.github.io/books/index.html">刊行物</a>
+    <a href="https://hazamashobo.github.io/contact/index.html"class="active">お問い合わせ</a>
+  </nav>
+    <div class="container">
+        <div class="employee-number">社員番号：HS0009</div>
+        <div class="content">
+            <div class="document-header">
+                <h2>社員個人情報管理台帳</h2>
+            </div>
+            <div class="section name-section">
+                <div class="name-field">
+                    <div class="name-info">
+                        <div class="field-group">
+                            <div class="field-label">氏名</div>
+                            <div class="field-value">
+                                <span class="furigana"ふくい　りほ</span>
+                                <span class="main-name">福井　里帆</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="photo-container">
+                    <img src="gazou/hukui.png" alt="福井 証明写真" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-title">基本情報</div>
+                <div class="field-group">
+                    <div class="field-label">生年月日</div>
+                    <div class="field-value">1998年5月3日</div>
+                </div>
+                <div class="field-group">
+                    <div class="field-label">性別</div>
+                    <div class="field-value">女性</div>
+                </div>
+                <div class="field-group">
+                    <div class="field-label">住所</div>
+                    <div class="field-value">〒150-0001 東京都練馬区桜台2-8-16</div>
+            </div>
+            <div class="section">
+                <div class="section-title">勤務情報</div>
+                <div class="field-group">
+                    <div class="field-label">所属部署</div>
+                    <div class="field-value">狭間書房編集部</div>
+                </div>
+                <div class="field-group">
+                    <div class="field-label">役職</div>
+                    <div class="field-value">情報システム担当</div>
+                </div>
+                <div class="field-group">
+                    <div class="field-label">雇用形態</div>
+                    <div class="field-value">正社員</div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-title">学歴・職歴</div>
+                <div class="career-item">2020年3月 東京理科大学 理工学部 情報科学科 卒業</div>
+                <div class="career-item">2020年4月 ITベンダー「システムコア」入社、SEとして勤務</div>
+                <div class="career-item">2022年3月 同社　退職</div>
+                <div class="career-item">2022年4月 狭間書房に転職、情報システム担当に配属</div>
+                <div class="career-item">現在に至る</div>
+            </div>
+            <div class="reference-note">
+                【社外秘】この情報は機密扱いとし、関係者以外への開示を禁ずる
+                他社員の情報については「社員名簿」を参照のこと。
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+        </div>
+    </div>
+<footer>
+<p>© 2025 狭間書房←何故か真ん中にならない</p>
+</footer>
+</body>
+</html>
