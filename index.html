@@ -5,14 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>社員個人情報データベース</title>
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
         body {
             background-color: #000000;
             color: #ffffff;
             font-family: 'Yu Mincho', 'Hiragino Mincho ProN', 'MS PMincho', serif;
             line-height: 1.6;
-            margin: 0;
-            padding: 0;
         }
+
         /* ヘッダー */
         header {
             display: flex;
@@ -21,11 +30,30 @@
             padding: 1em 2em;
             background-color: #666;
             color: #fff;
+            flex-shrink: 0;
+            gap: 2em;
+            box-sizing: border-box;
+            width: 100%;
         }
+
         .title-wrapper {
             display: flex;
             flex-direction: column;
         }
+
+        .title-wrapper a {
+            text-decoration: none;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .title-wrapper a:hover h1 {
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
         header h1 {
             margin: 0;
             font-size: 3em;
@@ -33,6 +61,7 @@
             line-height: 1;
             border: none;
         }
+
         .subtitle {
             margin: 0;
             padding: 0;
@@ -41,11 +70,22 @@
             text-align: center;
             color: #fff;
         }
+
         /* 検索 */
         .search {
             display: flex;
             align-items: center;
+            gap: 0.5em;
+            flex-shrink: 0;
+            margin-left: auto;
         }
+
+        .search form {
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+        }
+
         .search input {
             padding: 4px;
             border: 2px solid #333;
@@ -54,49 +94,75 @@
             background-color: #fff;
             color: #333;
         }
+
         .search input::placeholder {
             color: #333aa;
         }
+
         .search button {
             padding: 4px 6px;
-            margin-left: 4px;
             border-radius: 4px;
             border: none;
             background-color: #333;
             color: #fff;
             cursor: pointer;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
+
         .search button:hover {
             background-color: #222;
         }
+
         /* ナビゲーション */
         nav {
             text-align: center;
             padding: 1em 0;
             background-color: #f0f0f0;
+            flex-shrink: 0;
+            overflow-x: auto;
+            box-sizing: border-box;
+            width: 100%;
         }
+
         nav a {
             color: #333;
             margin: 0 1em;
             text-decoration: none;
             font-weight: bold;
+            display: inline-block;
+            white-space: nowrap;
         }
+
         nav a:hover {
             color: #666;
         }
+
         nav a.active {
             color: #666;
             border-bottom: 2px solid #666;
         }
+
         /* メインコンテナ */
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2em 1em;
+            box-sizing: border-box;
+        }
+
         .container {
             max-width: 800px;
-            margin: 2em auto;
+            width: 100%;
             background-color: #000000;
             border: 2px solid #ffffff;
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
             position: relative;
+            box-sizing: border-box;
         }
+
         .employee-number {
             position: absolute;
             top: 20px;
@@ -109,15 +175,19 @@
             border: 1px solid #ffffff;
             border-radius: 3px;
         }
+
         .content {
             padding: 60px 40px 40px 40px;
+            box-sizing: border-box;
         }
+
         .document-header {
             text-align: center;
             margin-bottom: 40px;
             padding-bottom: 20px;
             border-bottom: 2px solid #ffffff;
         }
+
         .document-header h2 {
             margin: 0;
             font-size: 24px;
@@ -125,56 +195,68 @@
             letter-spacing: 3px;
             font-weight: normal;
         }
+
         /* セクション */
         .section {
             margin-bottom: 30px;
             padding-bottom: 20px;
             border-bottom: 1px solid #ffffff;
         }
+
         .section:last-child {
             border-bottom: none;
             margin-bottom: 0;
         }
+
         .field-group {
             display: flex;
             margin-bottom: 15px;
             align-items: baseline;
         }
+
         .name-field {
             display: flex;
             align-items: flex-start;
             gap: 30px;
         }
+
         .name-info {
             flex: 1;
         }
+
         .field-label {
             font-weight: bold;
             min-width: 120px;
             color: #ffffff;
             margin-right: 20px;
             font-size: 16px;
+            flex-shrink: 0;
         }
+
         .field-value {
             flex: 1;
             font-size: 16px;
             color: #ffffff;
         }
+
         .name-section .field-value {
             font-size: 18px;
             font-weight: bold;
         }
+
         .furigana {
             font-size: 12px;
             color: #cccccc;
             margin-bottom: 3px;
             display: block;
         }
+
         .main-name {
             font-size: 20px;
             font-weight: bold;
             color: #ffffff;
         }
+
         .photo-container {
             width: 120px;
             height: 160px;
@@ -188,6 +270,13 @@
             text-align: center;
             flex-shrink: 0;
         }
+
+        .photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         .section-title {
             font-size: 18px;
             font-weight: bold;
@@ -197,12 +286,14 @@
             border-bottom: 2px solid #ffffff;
             display: inline-block;
         }
+
         .career-item {
             margin-bottom: 10px;
             padding-left: 20px;
             position: relative;
             color: #ffffff;
         }
+
         .career-item::before {
             content: "•";
             position: absolute;
@@ -210,6 +301,7 @@
             color: #ffffff;
             font-weight: bold;
         }
+
         .reference-note {
             text-align: center;
             color: #cccccc;
@@ -217,44 +309,208 @@
             margin-top: 20px;
             padding-bottom: 10px;
         }
-        .confidential {
-            text-align: center;
-            color: #ffffff;
-            font-size: 12px;
-            padding: 20px;
-            background-color: #333333;
-            border-top: 1px solid #ffffff;
-        }
+
         /* フッター */
         footer {
             background-color: #666;
             color: #ffffff;
             text-align: center;
             padding: 1em;
-            margin-top: 3em;
+            flex-shrink: 0;
+            margin-top: auto;
+            box-sizing: border-box;
+            width: 100%;
         }
+
         /* レスポンシブ */
         @media (max-width: 768px) {
-            .content {
-                padding: 40px 20px 20px 20px;
+            header {
+                padding: 1em;
+                justify-content: center;
+                text-align: center;
+                flex-wrap: wrap;
+                gap: 1em;
             }
+
             header h1 {
                 font-size: 2em;
             }
+
+            .title-wrapper {
+                width: 100%;
+            }
+
+            .search {
+                width: 100%;
+            }
+
+            .search form {
+                width: 100%;
+                display: flex;
+            }
+
+            .search input {
+                width: 100%;
+                flex: 1;
+            }
+
+            nav a {
+                margin: 0 0.5em;
+                font-size: 0.9em;
+            }
+
+            .main-wrapper {
+                padding: 1em 0.5em;
+            }
+
+            .container {
+                border-width: 1px;
+            }
+
+            .content {
+                padding: 50px 30px 30px 30px;
+            }
+
+            .employee-number {
+                font-size: 12px;
+                padding: 6px 12px;
+                top: 15px;
+                right: 15px;
+            }
+
+            .document-header {
+                margin-bottom: 30px;
+            }
+
+            .document-header h2 {
+                font-size: 20px;
+            }
+
             .name-field {
                 flex-direction: column;
                 gap: 20px;
             }
+
             .photo-container {
+                width: 100px;
+                height: 140px;
                 align-self: center;
             }
+
             .field-group {
                 flex-direction: column;
-                align-items: flex-start;
             }
+
             .field-label {
-                margin-bottom: 5px;
+                min-width: auto;
                 margin-right: 0;
+                margin-bottom: 5px;
+                font-size: 14px;
+            }
+
+            .field-value {
+                font-size: 14px;
+            }
+
+            .section {
+                margin-bottom: 20px;
+                padding-bottom: 15px;
+            }
+
+            .section-title {
+                font-size: 16px;
+            }
+
+            .career-item {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                flex-direction: column;
+                gap: 0.5em;
+            }
+
+            header h1 {
+                font-size: 1.5em;
+            }
+
+            .subtitle {
+                font-size: 0.9em;
+            }
+
+            .search {
+                width: 100%;
+            }
+
+            .search input {
+                width: 100%;
+                padding: 0.5em;
+            }
+
+            .search button {
+                padding: 0.5em 0.8em;
+                font-size: 0.9em;
+            }
+
+            nav a {
+                margin: 0 0.3em;
+                font-size: 0.8em;
+            }
+
+            .main-wrapper {
+                padding: 0.8em 0.5em;
+            }
+
+            .container {
+                border-width: 1px;
+            }
+
+            .content {
+                padding: 40px 20px 20px 20px;
+            }
+
+            .employee-number {
+                font-size: 11px;
+                padding: 5px 10px;
+                top: 12px;
+                right: 12px;
+            }
+
+            .document-header h2 {
+                font-size: 18px;
+                letter-spacing: 1px;
+            }
+
+            .photo-container {
+                width: 90px;
+                height: 120px;
+            }
+
+            .field-label {
+                font-size: 13px;
+            }
+
+            .field-value {
+                font-size: 13px;
+            }
+
+            .main-name {
+                font-size: 16px;
+            }
+
+            .section-title {
+                font-size: 14px;
+            }
+
+            .career-item {
+                font-size: 13px;
+                padding-left: 15px;
+            }
+
+            .reference-note {
+                font-size: 11px;
             }
         }
     </style>
@@ -262,8 +518,10 @@
 <body>
     <header>
         <div class="title-wrapper">
-            <h1>狭間書房</h1>
-            <p class="subtitle">Hazama Publishing</p>
+            <a href="https://hazamashobo.github.io/main/index.html">
+                <h1>狭間書房</h1>
+                <p class="subtitle">Hazama Publishing</p>
+            </a>
         </div>
         <div class="search">
             <form action="https://hazamashobo.github.io/result/" method="get">
@@ -279,76 +537,78 @@
         <a href="https://hazamashobo.github.io/books/index.html">刊行物</a>
         <a href="https://hazamashobo.github.io/contact/index.html" class="active">お問い合わせ</a>
     </nav>
-    
-    <div class="container">
-        <div class="employee-number">社員番号：HS0002</div>
-        <div class="content">
-            <div class="document-header">
-                <h2>社員個人情報管理台帳</h2>
-            </div>
-            <div class="section name-section">
-                <div class="name-field">
-                    <div class="name-info">
-                        <div class="field-group">
-                            <div class="field-label">氏名</div>
-                            <div class="field-value">
-                                <span class="furigana">やぶ　しょうこ</span>
-                                <span class="main-name">薮　翔子</span>
+
+    <div class="main-wrapper">
+        <div class="container">
+            <div class="employee-number">社員番号：HS0002</div>
+            <div class="content">
+                <div class="document-header">
+                    <h2>社員個人情報管理台帳</h2>
+                </div>
+                <div class="section name-section">
+                    <div class="name-field">
+                        <div class="name-info">
+                            <div class="field-group">
+                                <div class="field-label">氏名</div>
+                                <div class="field-value">
+                                    <span class="furigana">やぶ　しょうこ</span>
+                                    <span class="main-name">薮　翔子</span>
+                                </div>
                             </div>
                         </div>
+                        <div class="photo-container">
+                            <img src="gazou/kirisu.png" alt="薮　翔子 証明写真">
+                        </div>
                     </div>
-                    <div class="photo-container">
-                        <img src="gazou/yabu.png" alt="薮 証明写真" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="section">
+                    <div class="section-title">基本情報</div>
+                    <div class="field-group">
+                        <div class="field-label">生年月日</div>
+                        <div class="field-value">1970年5月3日</div>
+                    </div>
+                    <div class="field-group">
+                        <div class="field-label">性別</div>
+                        <div class="field-value">女性</div>
+                    </div>
+                    <div class="field-group">
+                        <div class="field-label">住所</div>
+                        <div class="field-value">神奈川県縦浜市中区山下町88-3</div>
                     </div>
                 </div>
-            </div>
-            <div class="section">
-                <div class="section-title">基本情報</div>
-                <div class="field-group">
-                    <div class="field-label">生年月日</div>
-                    <div class="field-value">1970年5月3日</div>
+                <div class="section">
+                    <div class="section-title">勤務情報</div>
+                    <div class="field-group">
+                        <div class="field-label">所属部署</div>
+                        <div class="field-value">狭間書房編集部</div>
+                    </div>
+                    <div class="field-group">
+                        <div class="field-label">役職</div>
+                        <div class="field-value">副編集長</div>
+                    </div>
+                    <div class="field-group">
+                        <div class="field-label">雇用形態</div>
+                        <div class="field-value">正社員</div>
+                    </div>
                 </div>
-                <div class="field-group">
-                    <div class="field-label">性別</div>
-                    <div class="field-value">女性</div>
-                </div>
-                <div class="field-group">
-                    <div class="field-label">住所</div>
-                    <div class="field-value">神奈川県横浜市中区山下町88-3</div>
-                </div>
-            </div>
-            <div class="section">
-                <div class="section-title">勤務情報</div>
-                <div class="field-group">
-                    <div class="field-label">所属部署</div>
-                    <div class="field-value">狭間書房編集部</div>
-                </div>
-                <div class="field-group">
-                    <div class="field-label">役職</div>
-                    <div class="field-value">副編集長</div>
-                </div>
-                <div class="field-group">
-                    <div class="field-label">雇用形態</div>
-                    <div class="field-value">正社員</div>
-                </div>
-            </div>
-            <div class="section">
-                <div class="section-title">学歴・職歴</div>
-                <div class="career-item">1993年3月 上智大学 外国語学部 英語学科 卒業</div>
+                <div class="section">
+                    <div class="section-title">学歴・職歴</div>
+                     <div class="career-item">1993年3月 上智大学 外国語学部 英語学科 卒業</div>
                 <div class="career-item">1993年4月 翻訳会社「LINK」入社、翻訳編集を担当</div>
                 <div class="career-item">1998年10月 外資系出版社に転職、雑誌編集を経験</div>
                 <div class="career-item">2002年4月 狭間書房 入社、企画編集を担当</div>
                 <div class="career-item">2018年4月 副編集長に昇格、現在に至る</div>
             </div>
-            <div class="reference-note">
-                【社外秘】この情報は機密扱いとし、関係者以外への開示を禁ずる　他社員の情報については「社員名簿」を参照のこと。
+                <div class="reference-note">
+                    【社外秘】この情報は機密扱いとし、関係者以外への開示を禁ずる<br>
+                    他社員の情報については、「社員名簿」を参照のこと。
+                </div>
             </div>
         </div>
     </div>
-    
-    <footer>
-        <p>© 2025 狭間書房</p>
-    </footer>
 
+    <footer>
+        <p>© 2025 狭間書房　（9/33）</p>
+    </footer>
 </body>
 </html>
